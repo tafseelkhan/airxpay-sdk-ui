@@ -1,203 +1,334 @@
-## 📘 AirXPay Initialization UI Components
+# 📘 AirXPay Initialization UI Components
 
 <div align="center">
-<img src="./assets/images/flixora.png" alt="AirXPay Flixora SDK"/>
+  <img src="./assets/images/flixora.png" alt="AirXPay Flixora SDK" width="400"/>
+  <br/>
+  <img src="./assets/images/airxpay.png" alt="AirXPay" width="200"/>
 </div>
 
 ---
 
-## AirXPay Initialization UI is a React & React Native component library to simplify seller onboarding in your apps. It provides ready-to-use steps for Basic Details, KYC Verification, Bank Details, and Completion, with smooth animations, progress tracking, and validation built-in.
+## 🚀 Overview
 
-**Enterprise-grade TypeScript SDK** for seamless seller onboarding in multi-tenant SaaS platforms. Built with ❤️ by the **Flixora Ecosystem**. Powered by **AirXPay** for payouts and payments, integrated with **TizzyGo**, **TizzyOS**, and soon **TizzyChat** for real-time notifications. Made with a **smiles-first philosophy**, designed to evolve and upgrade continuously for future generations.
+**AirXPay Initialization UI** is a production-ready React & React Native component library designed to streamline seller onboarding in multi-tenant SaaS applications. Built with TypeScript and enterprise-grade architecture, it provides a seamless, animated, and validated multi-step flow for collecting seller information.
 
----
-
-# Our team together build AirXPay with Flixora.
-
-_We have changed the version of this package airxpay from v1.0.3 to v1.0.5 because it was our compulsion to match the versions of the apps._
-**I hope you understand. Thanks for your reading.😊❤️**
+> **Part of the Flixora Ecosystem** — Integrated with AirXPay for payments, TizzyGo for logistics, TizzyOS for operations, and soon TizzyChat for real-time notifications.
 
 ---
 
-🔹 Features
+## ✨ Key Features
 
-Multi-step seller onboarding UI
+| Feature | Description |
+|---------|-------------|
+| ✅ **Multi-step Flow** | Basic Details → KYC → Bank Details → Completion |
+| 🎨 **Animated Transitions** | Smooth step transitions with progress tracking |
+| 🔒 **Built-in Validation** | Form validation for each step |
+| 📸 **Document Upload** | Integrated with Expo ImagePicker for KYC documents |
+| 🏦 **Bank Verification** | Country-specific bank details collection |
+| 📊 **Progress Tracking** | Visual progress indicator with step status |
+| 🔧 **Configurable** | Customizable via AirXPayProvider |
+| 📘 **TypeScript** | Fully typed components and hooks |
+| 📱 **Cross-platform** | Works with React Native, Expo, and Web |
 
-Step validation and completion tracking
+---
 
-Animated step transitions
+## 📦 Installation
 
-Integrated KYC & Bank Details checks
+### Prerequisites
 
-Loading and submission states
+Ensure you're in your React Native/Expo project:
 
-Compatible with React Native Paper, Expo, and React 18+
+```bash
+# Required peer dependencies
+npm install react-native-paper \
+  react-native-country-picker-modal \
+  expo-image-picker \
+  expo-linear-gradient
 
-Configurable AirXPayProvider for API integration
-
-Fully typed with TypeScript
-
-Modular and reusable components
-
-📦 Installation
-
-Ensure you are inside your React Native / Expo project:
-
-npm install react-native react-native-paper react-native-country-picker-modal expo-image-picker expo-linear-gradient
-
-Or with Yarn:
-
-yarn add react-native react-native-paper react-native-country-picker-modal expo-image-picker expo-linear-gradient
-
-Then, install the UI package (if you are using it locally):
-
+# Or with Yarn
+yarn add react-native-paper \
+  react-native-country-picker-modal \
+  expo-image-picker \
+  expo-linear-gradient
+Install the Package
+bash
+# For local development
 npm install --save path/to/airxpay-initialization-ui
 
-🛠️ Prerequisites
-
+# Or from npm (when published)
+npm install airxpay-initialization-ui
+Requirements
 React 18+
 
 React Native >= 0.72
 
-Expo SDK (optional if using expo packages like LinearGradient or ImagePicker)
+Expo SDK (optional, for LinearGradient & ImagePicker)
 
----
-
-<div align="center">
-<img src="./assets/images/airxpay.png" alt="airxpay"/>
-</div>
-
----
-
-🏗️ Usage
-1️⃣ Wrap your app in AirXPayProvider
-
-All components rely on AirXPayProvider to access configuration like baseUrl and publicKey.
-
+🏗️ Architecture
+text
+airxpay-initialization-ui/
+├── 📁 components/
+│   ├── 📁 steps/
+│   │   ├── BasicDetailsForm.tsx
+│   │   ├── KYCVerification.tsx
+│   │   ├── BankDetails.tsx
+│   │   └── OnboardingComplete.tsx
+│   └── SellerOnboardingSheet.tsx
+├── 📁 contexts/
+│   └── AirXPayProvider.tsx
+├── 📁 api/
+│   └── seller.ts
+├── 📁 hooks/
+│   ├── useAirXPay.ts
+│   ├── useAirXPaySafe.ts
+│   └── useIsAirXPayReady.ts
+└── index.ts
+🚀 Quick Start
+1️⃣ Wrap with Provider
+tsx
+// Root.tsx
 import React from 'react';
 import { AirXPayProvider } from 'airxpay-initialization-ui';
 import App from './App';
 
 export default function Root() {
-return (
-<AirXPayProvider
-config={{
+  return (
+    <AirXPayProvider
+      config={{
         baseUrl: 'https://api.airxpay.com',
         publicKey: 'YOUR_PUBLIC_KEY_HERE',
-      }} >
-<App />
-</AirXPayProvider>
-);
+      }}
+    >
+      <App />
+    </AirXPayProvider>
+  );
 }
-
-2️⃣ Render SellerOnboardingSheet
+2️⃣ Implement Onboarding
+tsx
+// SellerOnboardingScreen.tsx
 import React from 'react';
-import SellerOnboardingSheet from 'airxpay-initialization-ui/components/SellerOnboardingSheet';
+import { SellerOnboardingSheet } from 'airxpay-initialization-ui';
 
 const MySellerOnboarding = () => {
-return (
-<SellerOnboardingSheet
-sellerId="12345"
-mode="live"
-isKycCompleted={false}
-isBankDetailsCompleted={false}
-kycStatus="pending"
-status="pending"
-onNext={(stepData, currentStep) => {
-console.log('Step completed:', currentStep, stepData);
-}}
-onBack={(currentStep) => {
-console.log('Went back from step:', currentStep);
-}}
-onComplete={(sellerData) => {
-console.log('Seller onboarding complete!', sellerData);
-}}
-/>
-);
+  return (
+    <SellerOnboardingSheet
+      sellerId="seller_12345"
+      mode="live"
+      isKycCompleted={false}
+      isBankDetailsCompleted={false}
+      kycStatus="pending"
+      status="pending"
+      onNext={(stepData, currentStep) => {
+        console.log(`Step ${currentStep} completed:`, stepData);
+      }}
+      onBack={(currentStep) => {
+        console.log(`Navigated back from step ${currentStep}`);
+      }}
+      onComplete={(sellerData) => {
+        console.log('🎉 Onboarding complete!', sellerData);
+      }}
+    />
+  );
 };
 
 export default MySellerOnboarding;
+📋 Component API
+SellerOnboardingSheet Props
+Prop	Type	Required	Default	Description
+sellerId	string	✅	-	Unique seller identifier
+mode	'live' | 'test'	✅	-	Environment mode
+isKycCompleted	boolean	✅	-	KYC completion status
+isBankDetailsCompleted	boolean	✅	-	Bank details status
+kycStatus	string	✅	-	'pending' | 'verified' | 'rejected'
+status	string	✅	-	'pending' | 'active' | 'suspended'
+initialStep	number	❌	1	Starting step (1-4)
+initialData	Partial<Seller>	❌	{}	Pre-filled seller data
+loading	boolean	❌	false	External loading state
+onNext	(data: Partial<Seller>, step: number) => void	✅	-	Step completion callback
+onBack	(step: number) => void	✅	-	Back navigation callback
+onComplete	(data: Seller) => void	✅	-	Final completion callback
+AirXPayProvider Props
+Prop	Type	Required	Description
+config.baseUrl	string	✅	API base URL
+config.publicKey	string	✅	API public key
+children	ReactNode	✅	Child components
+🎣 Hooks
+tsx
+import { 
+  useAirXPay, 
+  useAirXPaySafe, 
+  useIsAirXPayReady,
+  useAirXPayConfig 
+} from 'airxpay-initialization-ui';
 
-🔹 Props
-Prop Type Required Description
-sellerId string ✅ Unique ID of the seller
-mode `'live'	'test'` ✅
-isKycCompleted boolean ✅ Whether KYC is already completed
-isBankDetailsCompleted boolean ✅ Whether bank details are completed
-kycStatus string ✅ Current KYC status (pending / verified)
-status string ✅ Seller status (pending / active)
-initialStep number ❌ Step to start from (default 1)
-initialData Partial<Seller> ❌ Pre-filled seller data
-onNext (stepData: Partial<Seller>, currentStep: number) => void ✅ Callback after completing a step
-onBack (currentStep: number) => void ✅ Callback when going back a step
-onComplete (sellerData: Seller) => void ✅ Callback when onboarding completes
-loading boolean ❌ Show external loading state
-🔹 Step Components
+// Access config (throws if no provider)
+const { baseUrl, publicKey } = useAirXPay();
 
-BasicDetailsForm – Collect seller name, email, and phone
+// Safe access (returns null if no provider)
+const config = useAirXPaySafe();
 
-KYCVerification – Upload KYC documents, verify identity
+// Check if provider is ready
+const isReady = useIsAirXPayReady();
 
-BankDetails – Add bank account information
-
-OnboardingComplete – Show success state with animation
-
+// Access specific config value
+const baseUrl = useAirXPayConfig('baseUrl');
 🎨 Customization
+Styling
+tsx
+// Override default styles
+<SellerOnboardingSheet
+  // ... props
+  styles={{
+    container: { backgroundColor: '#f5f5f5' },
+    stepIndicator: { backgroundColor: '#6200ee' }
+  }}
+/>
+Icons & Branding
+tsx
+// Custom logo
+<SellerOnboardingSheet
+  // ... props
+  logo={require('./assets/custom-logo.png')}
+/>
 
-Logo: Change DEFAULT_LOGO in SellerOnboardingSheet or pass a custom logo prop
+// Custom step icons via STEPS array modification
+Theme Support
+tsx
+// Using with React Native Paper
+import { Provider as PaperProvider } from 'react-native-paper';
 
-Colors & Gradients: Modify LinearGradient and StyleSheet colors
+<PaperProvider theme={yourTheme}>
+  <AirXPayProvider config={config}>
+    <SellerOnboardingSheet {...props} />
+  </AirXPayProvider>
+</PaperProvider>
+🔄 Step Flow
+text
+Step 1: Basic Details
+├── Seller Name
+├── Email Address
+├── Phone Number
+└── Business Type
 
-Step Icons: Each step can have a custom icon via STEPS array
+Step 2: KYC Verification
+├── Document Upload (PAN/Aadhar)
+├── Selfie Verification
+└── Address Proof
 
-⚙️ AirXPayProvider Configuration
-export interface AirXPayConfig {
-baseUrl: string; // API base URL
-publicKey: string; // API public key
-}
+Step 3: Bank Details
+├── Account Number
+├── IFSC Code
+├── Account Holder Name
+└── Bank Branch
 
-Validation occurs on mount
+Step 4: Completion
+├── Success Animation
+├── Summary View
+└── Next Steps
+⚡ Advanced Usage
+Custom Step Implementation
+tsx
+import { useStepContext } from 'airxpay-initialization-ui';
 
-Invalid config will throw an error in dev mode
+const CustomStep = () => {
+  const { stepData, updateStepData, goToNextStep } = useStepContext();
+  
+  const handleSubmit = () => {
+    updateStepData({ customField: 'value' });
+    goToNextStep();
+  };
+  
+  return (
+    // Your custom UI
+  );
+};
+Error Handling
+tsx
+<SellerOnboardingSheet
+  onError={(error, step) => {
+    switch(error.code) {
+      case 'KYC_FAILED':
+        showNotification('KYC verification failed');
+        break;
+      case 'BANK_INVALID':
+        showNotification('Invalid bank details');
+        break;
+    }
+  }}
+/>
+🧪 Testing
+bash
+# Run tests
+npm test
 
-useAirXPay() hook provides config safely
+# Run with coverage
+npm test -- --coverage
 
-📌 Hooks
-Hook Description
-useAirXPay() Returns AirXPay config, throws if provider missing
-useAirXPaySafe() Returns AirXPay config or null if missing
-useAirXPayConfig(key) Access single config value (baseUrl or publicKey)
-useIsAirXPayReady() Returns true if provider has valid config
-💡 Notes
+# Lint code
+npm run lint
 
-Always wrap your component tree with <AirXPayProvider>
+# Type check
+npm run type-check
+📈 Performance
+Memoized Components: All step components are memoized
 
-KYC & Bank steps are required in live mode
+Optimized Re-renders: Context splitting prevents unnecessary renders
 
-Animations are optimized for React Native, avoid heavy operations in step callbacks
+Lazy Loading: Steps load on-demand
 
-Compatible with Expo managed workflow
+Animation Optimizations: Native driver for smooth 60fps transitions
 
-🚀 Example Project Structure
-/airxpay-initialization-ui
-/components
-/steps
-BasicDetailsForm.tsx
-KYCVerification.tsx
-BankDetails.tsx
-OnboardingComplete.tsx
-SellerOnboardingSheet.tsx
-/contexts
-AirXPayProvider.tsx
-/api
-seller.ts
-index.ts
+🔒 Security
+All API calls require valid publicKey
 
-## 13. License
+File uploads are validated client-side
 
+Sensitive data never stored in logs
+
+HTTPS enforced for all requests
+
+XSS protection via input sanitization
+
+🐛 Troubleshooting
+Issue	Solution
+Provider not found	Wrap components in <AirXPayProvider>
+Images not uploading	Check Expo ImagePicker permissions
+Animation lag	Enable useNativeDriver in config
+TypeScript errors	Update to latest version
+Bank validation fails	Check country code format
+📝 Changelog
+v1.0.5 (Latest)
+Added React 18 support
+
+Fixed animation performance issues
+
+Improved TypeScript types
+
+Added Expo SDK 50+ compatibility
+
+Enhanced error handling
+
+v1.0.3
+Initial release
+
+Basic step flow
+
+KYC document upload
+
+Bank details validation
+
+🤝 Contributing
+Fork the repository
+
+Create feature branch (git checkout -b feature/amazing)
+
+Commit changes (git commit -m 'Add amazing feature')
+
+Push to branch (git push origin feature/amazing)
+
+Open a Pull Request
+
+📄 License
 MIT License © 2026 Flixora Technologies
 
-**Your's Simless Smile😊**
-Build with Flixora EcoSystem❤️
-
----
+<div align="center"> <h3>Built with ❤️ by the Flixora Ecosystem</h3> <p> <strong>Your Smile, Our Simplicity 😊</strong> </p> <p> <sub>Version 1.0.5 | Part of AirXPay, TizzyGo, TizzyOS, and TizzyChat</sub> </p> <p> <i>We upgraded from v1.0.3 to v1.0.5 to maintain version consistency across our ecosystem. Thanks for your understanding!</i> </p> </div> ```
