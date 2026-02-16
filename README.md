@@ -18,40 +18,27 @@
 <a href="#-javascript">
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript" alt="JavaScript" />
 </a>
-<a href="#-typescript">
-  <img src="https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
-</a>
 <a href="#-mit-license">
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=open-source-initiative" alt="MIT License" />
 </a>
 
-<br>
-<hr>
-<br>
+---
 
 <div align="center">
-  <img src="./assets/images/airxpay.png" alt="AirXPay Flixora SDK" width="120"/>
+  <img src="./assets/images/airxpay.png" alt="AirXPay Flixora SDK" width="120" />
 </div>
 
-<br>
-<hr>
-<br>
+---
 
 ## 🚀 Overview
 
 AirXPay Initialization UI is a production-ready React & React Native component library designed to streamline seller onboarding in multi-tenant SaaS applications. Built with TypeScript and enterprise-grade architecture, it provides a seamless, animated, and validated multi-step flow for collecting seller information.
 
-<br>
-
 > **Part of the Flixora Ecosystem** — Integrated with AirXPay for payments, TizzyGo for logistics, TizzyOS for operations, and soon TizzyChat for real-time notifications.
 
-<br>
-<hr>
-<br>
+---
 
 ## ✨ Key Features
-
-<br>
 
 | Feature | Description |
 |---------|-------------|
@@ -65,21 +52,13 @@ AirXPay Initialization UI is a production-ready React & React Native component l
 | 📘 **TypeScript** | Fully typed components, hooks, and classes |
 | 📱 **Cross-platform** | Works with React Native, Expo, and Web |
 
-<br>
-<hr>
-<br>
+---
 
 ## 📦 Installation
 
-<br>
-
 ### Prerequisites
 
-<br>
-
 Ensure you're in your React Native/Expo project:
-
-<br>
 
 ```bash
 # Required peer dependencies
@@ -87,27 +66,21 @@ npm install react-native-paper react-native-country-picker-modal @react-native-c
 
 # Or with Yarn
 yarn add react-native-paper react-native-country-picker-modal @react-native-community/datetimepicker expo-image-picker expo-linear-gradient
-
 Install the Package
-
 bash
 # Install the package from npm
 npm install @airxpay/sdk-ui
 
 # Install package from yarn
 yarn add @airxpay/sdk-ui
-
 Requirements
-
 React 18+
 
 React Native >= 0.72
 
 Expo SDK (optional, for LinearGradient & ImagePicker)
 
-<br> <hr> <br>
 🏗️ Architecture
-
 text
 @airxpay/sdk-ui/
 ├── components/
@@ -129,11 +102,8 @@ text
 │   ├── dev.ts                     # __DEV__
 │   └── type.ts                     # AirXPayConfig
 └── index.ts                        # Main exports
-<br> <hr> <br>
 🚀 Quick Start
-
 1️⃣ Wrap with Provider
-
 tsx
 // Root.tsx
 import React from 'react';
@@ -153,15 +123,11 @@ export default function Root() {
     </AirXPayProvider>
   );
 }
-<br> <hr> <br>
 🎣 Available Hooks
-
 <div align="center">
-🚀 Supercharge Your Integration
-
 The @airxpay/sdk-ui package provides powerful utility hooks for accessing configuration, managing initialization state, and safely interacting with the AirXPayProvider.
 
-</div><br> <br>
+</div>
 jsx
 import { 
   useAirXPay, 
@@ -169,22 +135,16 @@ import {
   useProviderReady, 
   useAirXPayConfig 
 } from '@airxpay/sdk-ui';
-<br> <hr> <br>
 📊 Hook Comparison Matrix
-
 Hook	Return Type	Error Handling	Safety	Best For	Complexity
 useAirXPay	object	⚠️ Throws	❌ Strict	Production	🔴 High
 useAirXPaySafe	object | null	✅ Silent	🛡️ Safe	Shared Components	🟡 Medium
 useProviderReady	boolean	✅ Silent	⏳ State	Async Loading	🟢 Low
 useAirXPayConfig	string	✅ Silent	🎯 Targeted	Single Values	🟢 Low
-<br> <hr> <br>
 🎯 Detailed Hook Catalog
-<br> <br>
 1️⃣ useAirXPay() — Full Configuration Access
-
 jsx
 const { baseUrl, publicKey } = useAirXPay();
-
 <div align="center">
 Property	Specification	Icon
 Returns	{ baseUrl: string, publicKey: string }	📦
@@ -206,15 +166,11 @@ const client = new AirXClient(publicKey);
 // ✅ Advanced Integrations
 const config = useAirXPay();
 initializeSDK(config);
-
 💼 Production Ready — Use when provider is guaranteed to exist
 
-<br> <hr> <br>
 2️⃣ useAirXPaySafe() — Safe Configuration Access
-
 jsx
 const config = useAirXPaySafe(); // Returns null if no provider
-
 <div align="center">
 Property	Specification	Icon
 Returns	object | null	📦
@@ -242,15 +198,11 @@ function SharedButton() {
   const config = useAirXPaySafe();
   return <button>{config?.publicKey || 'Default'}</button>;
 }
-
 🌟 Flexible Choice — Perfect for shared components and testing
 
-<br> <hr> <br>
 3️⃣ useProviderReady() — Initialization State
-
 jsx
 const isReady = useProviderReady(); // Returns boolean
-
 <div align="center">
 Property	Specification	Icon
 Returns	boolean	🔄
@@ -281,16 +233,12 @@ function DataFetcher() {
     if (isReady) fetchData();
   }, [isReady]);
 }
-
 🛡️ Initialization Guardian — Essential for async setup workflows
 
-<br> <hr> <br>
 4️⃣ useAirXPayConfig(key) — Targeted Value Access
-
 jsx
 const baseUrl = useAirXPayConfig('baseUrl');  // Returns string
 const publicKey = useAirXPayConfig('publicKey'); // Returns string
-
 <div align="center">
 Property	Specification	Icon
 Returns	string | undefined	🎯
@@ -318,12 +266,9 @@ function Logger() {
   const baseUrl = useAirXPayConfig('baseUrl');
   console.log('API URL:', baseUrl);
 }
-
 🎯 Precision Tool — When you need just one value, not the whole object
 
-<br> <hr> <br>
 📈 Feature Comparison Matrix
-
 Feature	useAirXPay	useAirXPaySafe	useProviderReady	useAirXPayConfig
 Return Type	object	object | null	boolean	string
 Throws Error	⚠️ Yes	✅ No	✅ No	✅ No
@@ -334,23 +279,19 @@ Learning Curve	Easy	Easy	Easiest	Easy
 Use Case	Full config	Optional config	Init state	Single value
 Flexibility	Low	High	High	High
 Type Safety	✅ Full	✅ Full	✅ Full	✅ Full
-<br> <hr> <br>
 🎨 Visual Implementation Guide
-
 jsx
 // 🚀 PRODUCTION COMPONENTS - Strict Provider Required
 function PaymentProcessor() {
   const { baseUrl, publicKey } = useAirXPay(); // Must have provider
   // Critical payment logic here
 }
-
 jsx
 // 🧪 REUSABLE COMPONENTS - Flexible Provider Optional
 function UIComponent() {
   const config = useAirXPaySafe(); // Safe, handles missing provider
   return <div>{config ? <Connected /> : <Fallback />}</div>;
 }
-
 jsx
 // ⏰ LOADING MANAGEMENT - Async State Handling
 function AppRouter() {
@@ -358,7 +299,6 @@ function AppRouter() {
   if (!isReady) return <GlobalLoader />;
   return <AuthenticatedApp />;
 }
-
 jsx
 // 🎯 CONFIG ACCESS - Focused Value Retrieval
 function Analytics() {
@@ -366,9 +306,7 @@ function Analytics() {
   const publicKey = useAirXPayConfig('publicKey');
   trackEvent('init', { baseUrl, publicKey });
 }
-<br> <hr> <br>
 🎮 Hook Selection Flowchart
-
 text
                     Start
                       │
@@ -405,9 +343,7 @@ text
                     ┌─────────────────┐
                     │ useProviderReady│
                     └─────────────────┘
-<br> <hr> <br>
 💡 Pro Tips & Best Practices
-
 Scenario	Recommended Hook	Why
 🚀 Core Payment Flow	useAirXPay	Fail fast if provider missing
 📦 NPM Package Component	useAirXPaySafe	Don't break consumer apps
@@ -415,38 +351,27 @@ Scenario	Recommended Hook	Why
 🎯 API URL Only	useAirXPayConfig	Cleaner than destructuring
 🧪 Unit Tests	useAirXPaySafe	Mock-friendly
 ⚡ Performance Critical	useAirXPayConfig	Minimal re-renders
-<br> <hr> <br>
 📦 Bundle Size Impact
-
 Hook	Size	Impact
 useAirXPay	~0.5KB	🟢 Minimal
 useAirXPaySafe	~0.5KB	🟢 Minimal
 useProviderReady	~0.3KB	🟢 Tiny
 useAirXPayConfig	~0.4KB	🟢 Tiny
-<br> <hr> <br><div align="center">
+<div align="center">
 ⚡ Quick Decision Maker
-
 If you want...	Then use...
 🔒 Strict mode, full config	useAirXPay()
 🛡️ Safe mode, full config	useAirXPaySafe()
 ⏰ Check if SDK is ready	useProviderReady()
 🎯 Just one config value	useAirXPayConfig(key)
-<br> <hr> <br>
 🏆 Recommendation Matrix
-
 Use Case	Complexity	Safety	Winner
 Production App	High	Strict	useAirXPay
 Shared Library	Medium	Safe	useAirXPaySafe
 Loading States	Low	Safe	useProviderReady
 Config Access	Low	Safe	useAirXPayConfig
-<br> <hr> <br>
-🎉 Happy Coding!
-
-For questions or support, reach out to the AirXPay team
-
-</div><br> <hr> <br>
+</div>
 2️⃣ Implement Onboarding
-
 tsx
 // SellerOnboardingScreen.tsx
 import React from 'react';
@@ -475,11 +400,8 @@ const MySellerOnboarding = () => {
 };
 
 export default MySellerOnboarding;
-<br> <hr> <br>
 📋 Component API
-
 useAirXPaySheet Props
-
 Prop	Type	Required	Default	Description
 sellerId	string	✅	-	Unique seller identifier
 mode	'live' | 'test'	✅	-	Environment mode
@@ -493,17 +415,13 @@ loading	boolean	❌	false	External loading state
 onNext	(data: Partial<Seller>, step: number) => void	✅	-	Step completion callback
 onBack	(step: number) => void	✅	-	Back navigation callback
 onComplete	(data: Seller) => void	✅	-	Final completion callback
-
 AirXPayProvider Props
-
 Prop	Type	Required	Default	Description
 config.baseUrl	string	✅	-	API base URL (must be valid URL)
 config.publicKey	string	✅	-	API public key (min 20 chars)
 children	ReactNode	✅	-	Child components
 enableLogging	boolean	❌	__DEV__	Enable/disable console logs
-<br> <hr> <br>
 🎣 Hooks & Utilities
-
 tsx
 import { 
   useAirXPay,           // Access config (throws if no provider)
@@ -518,11 +436,8 @@ const { baseUrl, publicKey } = useAirXPay();
 const config = useAirXPaySafe();
 const isReady = useIsAirXPayReady();
 const baseUrl = useAirXPayConfig('baseUrl');
-
 ⚡ Class-based Initialization
-
 The package also provides a class-based approach for scenarios where you need to initialize the SDK asynchronously:
-
 
 tsx
 import { useIsAirXPayReady } from '@airxpay/sdk-ui';
@@ -542,11 +457,8 @@ async function initializeSDK() {
     console.error('Initialization failed:', error);
   }
 }
-<br> <hr> <br>
 🔧 Configuration Validation
-
 The AirXPayProvider includes built-in validation that throws clear, actionable errors:
-
 
 tsx
 // ❌ This will throw a detailed error
@@ -563,11 +475,8 @@ tsx
 // AirXPayProvider Configuration Error:
 //   • baseUrl must be a valid URL
 //   • publicKey appears to be invalid
-<br> <hr> <br>
 🎨 Customization
-
 Styling
-
 tsx
 <useAirXPaySheet
   // ... props
@@ -576,9 +485,7 @@ tsx
     stepIndicator: { backgroundColor: '#6200ee' }
   }}
 />
-
 Theme Support
-
 tsx
 import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -587,9 +494,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
     <useAirXPaySheet {...props} />
   </AirXPayProvider>
 </PaperProvider>
-<br> <hr> <br>
 🔄 Step Flow
-
 text
 Step 1: Basic Details
 ├── Seller Name
@@ -612,9 +517,7 @@ Step 4: Completion
 ├── Success Animation
 ├── Summary View
 └── Next Steps
-<br> <hr> <br>
 📝 Exports Reference
-
 tsx
 // Main exports from index.ts
 export { useIsAirXPayReady } from "./sdk/airxpay";           // Class for async init
@@ -629,21 +532,16 @@ export {
   useAirXPayConfig,
   AirXPayConsumer 
 } from './contexts/AirXPayProvider';
-<br> <hr> <br>
 🧪 Development Utilities
-
 tsx
 import { __DEV__ } from '@airxpay/sdk-ui';
 
 if (__DEV__) {
   console.log('Running in development mode');
 }
-
 The __DEV__ flag helps you conditionally run code only in development environments.
 
-<br> <hr> <br>
 📈 Performance
-
 Memoized Components: All step components are memoized
 
 Optimized Re-renders: Context splitting prevents unnecessary renders
@@ -652,9 +550,7 @@ Lazy Loading: Steps load on-demand
 
 Development Logging: Auto-disabled in production via __DEV__
 
-<br> <hr> <br>
 🔒 Security
-
 All API calls require valid publicKey
 
 File uploads are validated client-side
@@ -665,18 +561,14 @@ HTTPS enforced for all requests
 
 XSS protection via input sanitization
 
-<br> <hr> <br>
 🐛 Troubleshooting
-
 Issue	Solution
 "useAirXPay must be used within AirXPayProvider"	Wrap your component tree with provider
 "Public key appears to be invalid"	Check if publicKey is at least 20 chars
 "baseUrl must be a valid URL"	Include protocol (https://) in baseUrl
 Images not uploading	Check Expo ImagePicker permissions
 TypeScript errors	Update to latest version
-<br> <hr> <br>
 📝 Changelog
-
 v1.0.5 (Latest)
 Added class-based useIsAirXPayReady for async initialization
 
@@ -688,7 +580,6 @@ Improved TypeScript types
 
 Added enableLogging prop to provider
 
-
 v1.0.3
 Initial release
 
@@ -698,9 +589,7 @@ KYC document upload
 
 Bank details validation
 
-<br> <hr> <br>
 🤝 Contributing
-
 Fork the repository
 
 Create feature branch (git checkout -b feature/amazing)
@@ -711,9 +600,7 @@ Push to branch (git push origin feature/amazing)
 
 Open a Pull Request
 
-<br> <hr> <br>
 📄 License
-
 MIT License © 2026 Flixora Technologies
 
-<br> <hr> <br><div align="center"> <h3>Built with ❤️ by the Flixora Ecosystem</h3> <p><strong>Your Smile, Our Simplicity 😊</strong></p> <p><sub>Version 1.0.5 | Part of AirXPay, TizzyGo, TizzyOS, and TizzyChat</sub></p> <p><i>We upgraded from v1.0.3 to v1.0.5 to maintain version consistency across our ecosystem. Thanks for your understanding!</i></p> </div> ```
+<div align="center"> <h3>Built with ❤️ by the Flixora Ecosystem</h3> <p><strong>Your Smile, Our Simplicity 😊</strong></p> <p><sub>Version 1.0.5 | Part of AirXPay, TizzyGo, TizzyOS, and TizzyChat</sub></p> <p><i>We upgraded from v1.0.3 to v1.0.5 to maintain version consistency across our ecosystem. Thanks for your understanding!</i></p> </div> ```
