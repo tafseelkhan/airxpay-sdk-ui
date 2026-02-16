@@ -116,6 +116,31 @@ yarn add @airxpay/sdk-ui
 
 ---
 
+## 🚀 Quick Start
+
+### 1️⃣ Wrap with Provider
+
+```tsx
+// Root.tsx
+import React from 'react';
+import { AirXPayProvider } from '@airxpay/sdk-ui';
+import App from './App';
+
+export default function Root() {
+  return (
+    <AirXPayProvider
+      config={{
+        baseUrl: 'https://api.airxpay.com',
+        publicKey: 'YOUR_PUBLIC_KEY_HERE',
+      }}
+      enableLogging={__DEV__} // Optional: enables detailed logs in development
+    >
+      <App />
+    </AirXPayProvider>
+  );
+}
+```
+
 # 🎣 Available Hooks
 
 <div align="center">
@@ -411,31 +436,6 @@ Config Access	Low	Safe	useAirXPayConfig
 For questions or support, reach out to the AirXPay team
 
 </div> ```
-
-## 🚀 Quick Start
-
-### 1️⃣ Wrap with Provider
-
-```tsx
-// Root.tsx
-import React from 'react';
-import { AirXPayProvider } from '@airxpay/sdk-ui';
-import App from './App';
-
-export default function Root() {
-  return (
-    <AirXPayProvider
-      config={{
-        baseUrl: 'https://api.airxpay.com',
-        publicKey: 'YOUR_PUBLIC_KEY_HERE',
-      }}
-      enableLogging={__DEV__} // Optional: enables detailed logs in development
-    >
-      <App />
-    </AirXPayProvider>
-  );
-}
-```
 
 ### 2️⃣ Implement Onboarding
 
