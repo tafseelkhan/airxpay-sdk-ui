@@ -25,23 +25,33 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=open-source-initiative" alt="MIT License" />
 </a>
 
----
+<br>
+<hr>
+<br>
 
 <div align="center">
   <img src="./assets/images/airxpay.png" alt="AirXPay Flixora SDK" width="120"/>
 </div>
 
----
+<br>
+<hr>
+<br>
 
 ## 🚀 Overview
 
 AirXPay Initialization UI is a production-ready React & React Native component library designed to streamline seller onboarding in multi-tenant SaaS applications. Built with TypeScript and enterprise-grade architecture, it provides a seamless, animated, and validated multi-step flow for collecting seller information.
 
+<br>
+
 > **Part of the Flixora Ecosystem** — Integrated with AirXPay for payments, TizzyGo for logistics, TizzyOS for operations, and soon TizzyChat for real-time notifications.
 
----
+<br>
+<hr>
+<br>
 
 ## ✨ Key Features
+
+<br>
 
 | Feature | Description |
 |---------|-------------|
@@ -55,13 +65,21 @@ AirXPay Initialization UI is a production-ready React & React Native component l
 | 📘 **TypeScript** | Fully typed components, hooks, and classes |
 | 📱 **Cross-platform** | Works with React Native, Expo, and Web |
 
----
+<br>
+<hr>
+<br>
 
 ## 📦 Installation
 
+<br>
+
 ### Prerequisites
 
+<br>
+
 Ensure you're in your React Native/Expo project:
+
+<br>
 
 ```bash
 # Required peer dependencies
@@ -69,29 +87,28 @@ npm install react-native-paper react-native-country-picker-modal @react-native-c
 
 # Or with Yarn
 yarn add react-native-paper react-native-country-picker-modal @react-native-community/datetimepicker expo-image-picker expo-linear-gradient
-```
 
-### Install the Package
+Install the Package
 
-```bash
+bash
 # Install the package from npm
 npm install @airxpay/sdk-ui
 
 # Install package from yarn
 yarn add @airxpay/sdk-ui
-```
 
-### Requirements
+Requirements
 
-- React 18+
-- React Native >= 0.72
-- Expo SDK (optional, for LinearGradient & ImagePicker)
+React 18+
 
----
+React Native >= 0.72
 
-## 🏗️ Architecture
+Expo SDK (optional, for LinearGradient & ImagePicker)
 
-```
+<br> <hr> <br>
+🏗️ Architecture
+
+text
 @airxpay/sdk-ui/
 ├── components/
 │   ├── steps/
@@ -112,15 +129,12 @@ yarn add @airxpay/sdk-ui
 │   ├── dev.ts                     # __DEV__
 │   └── type.ts                     # AirXPayConfig
 └── index.ts                        # Main exports
-```
+<br> <hr> <br>
+🚀 Quick Start
 
----
+1️⃣ Wrap with Provider
 
-## 🚀 Quick Start
-
-### 1️⃣ Wrap with Provider
-
-```tsx
+tsx
 // Root.tsx
 import React from 'react';
 import { AirXPayProvider } from '@airxpay/sdk-ui';
@@ -139,22 +153,16 @@ export default function Root() {
     </AirXPayProvider>
   );
 }
-```
-
-# 🎣 Available Hooks
+<br> <hr> <br>
+🎣 Available Hooks
 
 <div align="center">
-  
-## 🚀 Supercharge Your Integration
+🚀 Supercharge Your Integration
 
-The **@airxpay/sdk-ui** package provides powerful utility hooks for accessing configuration, managing initialization state, **and safely interacting with the AirXPayProvider.**
+The @airxpay/sdk-ui package provides powerful utility hooks for accessing configuration, managing initialization state, and safely interacting with the AirXPayProvider.
 
-</div>
-
-<br>
-<br>
-
-```jsx
+</div><br> <br>
+jsx
 import { 
   useAirXPay, 
   useAirXPaySafe, 
@@ -433,13 +441,13 @@ Loading States	Low	Safe	useProviderReady
 Config Access	Low	Safe	useAirXPayConfig
 <br> <hr> <br>
 🎉 Happy Coding!
+
 For questions or support, reach out to the AirXPay team
 
-</div> ```
+</div><br> <hr> <br>
+2️⃣ Implement Onboarding
 
-### 2️⃣ Implement Onboarding
-
-```tsx
+tsx
 // SellerOnboardingScreen.tsx
 import React from 'react';
 import { useAirXPaySheet } from '@airxpay/sdk-ui';
@@ -467,43 +475,36 @@ const MySellerOnboarding = () => {
 };
 
 export default MySellerOnboarding;
-```
+<br> <hr> <br>
+📋 Component API
 
----
+useAirXPaySheet Props
 
-## 📋 Component API
+Prop	Type	Required	Default	Description
+sellerId	string	✅	-	Unique seller identifier
+mode	'live' | 'test'	✅	-	Environment mode
+isKycCompleted	boolean	✅	-	KYC completion status
+isBankDetailsCompleted	boolean	✅	-	Bank details status
+kycStatus	string	✅	-	'pending' | 'verified' | 'rejected'
+status	string	✅	-	'pending' | 'active' | 'suspended'
+initialStep	number	❌	1	Starting step (1-4)
+initialData	Partial<Seller>	❌	{}	Pre-filled seller data
+loading	boolean	❌	false	External loading state
+onNext	(data: Partial<Seller>, step: number) => void	✅	-	Step completion callback
+onBack	(step: number) => void	✅	-	Back navigation callback
+onComplete	(data: Seller) => void	✅	-	Final completion callback
 
-### useAirXPaySheet Props
+AirXPayProvider Props
 
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| sellerId | string | ✅ | - | Unique seller identifier |
-| mode | 'live' \| 'test' | ✅ | - | Environment mode |
-| isKycCompleted | boolean | ✅ | - | KYC completion status |
-| isBankDetailsCompleted | boolean | ✅ | - | Bank details status |
-| kycStatus | string | ✅ | - | 'pending' \| 'verified' \| 'rejected' |
-| status | string | ✅ | - | 'pending' \| 'active' \| 'suspended' |
-| initialStep | number | ❌ | 1 | Starting step (1-4) |
-| initialData | Partial\<Seller\> | ❌ | {} | Pre-filled seller data |
-| loading | boolean | ❌ | false | External loading state |
-| onNext | (data: Partial\<Seller\>, step: number) => void | ✅ | - | Step completion callback |
-| onBack | (step: number) => void | ✅ | - | Back navigation callback |
-| onComplete | (data: Seller) => void | ✅ | - | Final completion callback |
+Prop	Type	Required	Default	Description
+config.baseUrl	string	✅	-	API base URL (must be valid URL)
+config.publicKey	string	✅	-	API public key (min 20 chars)
+children	ReactNode	✅	-	Child components
+enableLogging	boolean	❌	__DEV__	Enable/disable console logs
+<br> <hr> <br>
+🎣 Hooks & Utilities
 
-### AirXPayProvider Props
-
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| config.baseUrl | string | ✅ | - | API base URL (must be valid URL) |
-| config.publicKey | string | ✅ | - | API public key (min 20 chars) |
-| children | ReactNode | ✅ | - | Child components |
-| enableLogging | boolean | ❌ | \_\_DEV\_\_ | Enable/disable console logs |
-
----
-
-## 🎣 Hooks & Utilities
-
-```tsx
+tsx
 import { 
   useAirXPay,           // Access config (throws if no provider)
   useAirXPaySafe,       // Safe access (returns null if no provider)
@@ -517,13 +518,13 @@ const { baseUrl, publicKey } = useAirXPay();
 const config = useAirXPaySafe();
 const isReady = useIsAirXPayReady();
 const baseUrl = useAirXPayConfig('baseUrl');
-```
 
-### ⚡ Class-based Initialization
+⚡ Class-based Initialization
 
 The package also provides a class-based approach for scenarios where you need to initialize the SDK asynchronously:
 
-```tsx
+
+tsx
 import { useIsAirXPayReady } from '@airxpay/sdk-ui';
 
 // Initialize with config
@@ -541,15 +542,13 @@ async function initializeSDK() {
     console.error('Initialization failed:', error);
   }
 }
-```
+<br> <hr> <br>
+🔧 Configuration Validation
 
----
+The AirXPayProvider includes built-in validation that throws clear, actionable errors:
 
-## 🔧 Configuration Validation
 
-The `AirXPayProvider` includes built-in validation that throws clear, actionable errors:
-
-```tsx
+tsx
 // ❌ This will throw a detailed error
 <AirXPayProvider
   config={{
@@ -564,15 +563,12 @@ The `AirXPayProvider` includes built-in validation that throws clear, actionable
 // AirXPayProvider Configuration Error:
 //   • baseUrl must be a valid URL
 //   • publicKey appears to be invalid
-```
+<br> <hr> <br>
+🎨 Customization
 
----
+Styling
 
-## 🎨 Customization
-
-### Styling
-
-```tsx
+tsx
 <useAirXPaySheet
   // ... props
   styles={{
@@ -580,11 +576,10 @@ The `AirXPayProvider` includes built-in validation that throws clear, actionable
     stepIndicator: { backgroundColor: '#6200ee' }
   }}
 />
-```
 
-### Theme Support
+Theme Support
 
-```tsx
+tsx
 import { Provider as PaperProvider } from 'react-native-paper';
 
 <PaperProvider theme={yourTheme}>
@@ -592,13 +587,10 @@ import { Provider as PaperProvider } from 'react-native-paper';
     <useAirXPaySheet {...props} />
   </AirXPayProvider>
 </PaperProvider>
-```
+<br> <hr> <br>
+🔄 Step Flow
 
----
-
-## 🔄 Step Flow
-
-```
+text
 Step 1: Basic Details
 ├── Seller Name
 ├── Email Address
@@ -620,13 +612,10 @@ Step 4: Completion
 ├── Success Animation
 ├── Summary View
 └── Next Steps
-```
+<br> <hr> <br>
+📝 Exports Reference
 
----
-
-## 📝 Exports Reference
-
-```tsx
+tsx
 // Main exports from index.ts
 export { useIsAirXPayReady } from "./sdk/airxpay";           // Class for async init
 export { AirXPayProvider } from "./contexts/AirXPayProvider";
@@ -640,91 +629,91 @@ export {
   useAirXPayConfig,
   AirXPayConsumer 
 } from './contexts/AirXPayProvider';
-```
+<br> <hr> <br>
+🧪 Development Utilities
 
----
-
-## 🧪 Development Utilities
-
-```tsx
+tsx
 import { __DEV__ } from '@airxpay/sdk-ui';
 
 if (__DEV__) {
   console.log('Running in development mode');
 }
-```
 
-The `__DEV__` flag helps you conditionally run code only in development environments.
+The __DEV__ flag helps you conditionally run code only in development environments.
 
----
+<br> <hr> <br>
+📈 Performance
 
-## 📈 Performance
+Memoized Components: All step components are memoized
 
-- **Memoized Components:** All step components are memoized
-- **Optimized Re-renders:** Context splitting prevents unnecessary renders
-- **Lazy Loading:** Steps load on-demand
-- **Development Logging:** Auto-disabled in production via `__DEV__`
+Optimized Re-renders: Context splitting prevents unnecessary renders
 
----
+Lazy Loading: Steps load on-demand
 
-## 🔒 Security
+Development Logging: Auto-disabled in production via __DEV__
 
-- All API calls require valid publicKey
-- File uploads are validated client-side
-- Sensitive data never stored in logs
-- HTTPS enforced for all requests
-- XSS protection via input sanitization
+<br> <hr> <br>
+🔒 Security
 
----
+All API calls require valid publicKey
 
-## 🐛 Troubleshooting
+File uploads are validated client-side
 
-| Issue | Solution |
-|-------|----------|
-| "useAirXPay must be used within AirXPayProvider" | Wrap your component tree with provider |
-| "Public key appears to be invalid" | Check if publicKey is at least 20 chars |
-| "baseUrl must be a valid URL" | Include protocol (https://) in baseUrl |
-| Images not uploading | Check Expo ImagePicker permissions |
-| TypeScript errors | Update to latest version |
+Sensitive data never stored in logs
 
----
+HTTPS enforced for all requests
 
-## 📝 Changelog
+XSS protection via input sanitization
 
-### v1.0.5 (Latest)
-- Added class-based `useIsAirXPayReady` for async initialization
-- Enhanced error messages with stack traces
-- Added `__DEV__` flag for environment detection
-- Improved TypeScript types
-- Added `enableLogging` prop to provider
+<br> <hr> <br>
+🐛 Troubleshooting
 
-### v1.0.3
-- Initial release
-- Basic step flow
-- KYC document upload
-- Bank details validation
+Issue	Solution
+"useAirXPay must be used within AirXPayProvider"	Wrap your component tree with provider
+"Public key appears to be invalid"	Check if publicKey is at least 20 chars
+"baseUrl must be a valid URL"	Include protocol (https://) in baseUrl
+Images not uploading	Check Expo ImagePicker permissions
+TypeScript errors	Update to latest version
+<br> <hr> <br>
+📝 Changelog
 
----
+v1.0.5 (Latest)
+Added class-based useIsAirXPayReady for async initialization
 
-## 🤝 Contributing
+Enhanced error messages with stack traces
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing`)
-5. Open a Pull Request
+Added __DEV__ flag for environment detection
 
----
+Improved TypeScript types
 
-## 📄 License
+Added enableLogging prop to provider
+
+
+v1.0.3
+Initial release
+
+Basic step flow
+
+KYC document upload
+
+Bank details validation
+
+<br> <hr> <br>
+🤝 Contributing
+
+Fork the repository
+
+Create feature branch (git checkout -b feature/amazing)
+
+Commit changes (git commit -m 'Add amazing feature')
+
+Push to branch (git push origin feature/amazing)
+
+Open a Pull Request
+
+<br> <hr> <br>
+📄 License
 
 MIT License © 2026 Flixora Technologies
 
----
-
-<div align="center">
-  <h3>Built with ❤️ by the Flixora Ecosystem</h3>
-  <p><strong>Your Smile, Our Simplicity 😊</strong></p>
-  <p><sub>Version 1.0.5 | Part of AirXPay, TizzyGo, TizzyOS, and TizzyChat</sub></p>
-  <p><i>We upgraded from v1.0.3 to v1.0.5 to maintain version consistency across our ecosystem. Thanks for your understanding!</i></p>
-</div>
+<br> <hr> <br><div align="center"> <h3>Built with ❤️ by the Flixora Ecosystem</h3> <p><strong>Your Smile, Our Simplicity 😊</strong></p> <p><sub>Version 1.0.5 | Part of AirXPay, TizzyGo, TizzyOS, and TizzyChat</sub></p> <p><i>We upgraded from v1.0.3 to v1.0.5 to maintain version consistency across our ecosystem. Thanks for your understanding!</i></p> </div> ```
