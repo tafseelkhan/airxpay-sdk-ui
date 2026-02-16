@@ -144,7 +144,7 @@ export const useAirXPayConfig = <K extends keyof AirXPayConfig>(
 };
 
 // Helper: Check if provider is properly configured
-export const useIsAirXPayReady = (): boolean => {
+export const useProviderReady = (): boolean => {
   const config = useAirXPaySafe();
   return !!(config?.baseUrl && config?.publicKey);
 };
