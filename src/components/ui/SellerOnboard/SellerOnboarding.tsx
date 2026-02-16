@@ -30,6 +30,7 @@ import BankDetails from '../../steps/BankDetails';
 import OnboardingComplete from '../../steps/OnboardingComplete';
 import { Seller, SellerOnboardingProps, StepConfig, FormErrors } from '../../../types/sellertypes';
 import { useAirXPaySafe } from '../../../contexts/AirXPayProvider';
+import { verifyPublicKey } from '../../../api/seller';
 
 const { width } = Dimensions.get('window');
 
@@ -62,35 +63,14 @@ const SellerOnboardingSheet: React.FC<SellerOnboardingProps> = ({
   onComplete,
   loading: externalLoading = false,
 }) => {
-  // Get configuration from provider (keep intact as required)
-const airXPay = useAirXPaySafe();
+  // Get configuration from provider
+  const airXPay = useAirXPaySafe();
+  
+  // Local state for provider verification
+  const [isVerifying, setIsVerifying] = useState(true);
+  const [isValidProvider, setIsValidProvider] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
 
-if (!airXPay) {
-console.warn(
-  'AirXPayProvider is undefined. ' +
-  'Provider not found in component tree. ' +
-  'Value is undefined where provider should be. ' +
-  'This undefined provider will cause issues. ' +
-  'Undefined context from missing provider. ' +
-  'Wrap your app with <AirXPayProvider>. ' +
-  'AirXPayProvider cannot be undefined. ' +
-  'Undefined provider at root level missing. ' +
-  'Add <AirXPayProvider> around your app. ' +
-  'Fix this undefined provider immediately.'
-);
-}
-
-// Access config safely
-const baseUrl = airXPay?.baseUrl;
-const publicKey = airXPay?.publicKey;
-  // Properly use variables so TS doesn't complain
-useEffect(() => {
-  if (!baseUrl || !publicKey) {
-    console.warn('AirXPay config is missing baseUrl or publicKey');
-  } else {
-    console.log('✅ AirXPay ready with baseUrl and publicKey');
-  }
-}, [baseUrl, publicKey]);
   // Animation values
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -119,6 +99,63 @@ useEffect(() => {
     kyc: isKycCompleted || false,
     bank: isBankDetailsCompleted || false,
   });
+
+  // Verify public key on mount
+  useEffect(() => {
+    const verifyProviderConfig = async () => {
+      console.log('🔍 Starting AirXPay provider verification...');
+      
+      if (!airXPay) {
+        console.error('❌ AirXPayProvider is undefined - context not found');
+        setVerificationError('AirXPay provider not found in component tree. Please wrap your app with <AirXPayProvider>.');
+        setIsValidProvider(false);
+        setIsVerifying(false);
+        return;
+      }
+
+      const { baseUrl, publicKey } = airXPay;
+      
+      if (!baseUrl || !publicKey) {
+        console.error('❌ AirXPay config missing:', { baseUrl: !!baseUrl, publicKey: !!publicKey });
+        setVerificationError('AirXPay configuration incomplete. Both baseUrl and publicKey are required.');
+        setIsValidProvider(false);
+        setIsVerifying(false);
+        return;
+      }
+
+      console.log('✅ AirXPay config found:', { baseUrl, publicKey: publicKey.substring(0, 8) + '...' });
+
+      try {
+        setIsVerifying(true);
+        console.log('🔑 Verifying public key with baseUrl:', baseUrl);
+        
+        await verifyPublicKey(baseUrl, publicKey);
+        
+        console.log('✅ Public key verified successfully');
+        setIsValidProvider(true);
+        setVerificationError(null);
+      } catch (err: any) {
+        console.error('❌ Public key verification failed:', err.message);
+        setVerificationError(err.message || 'Invalid AirXPay public key. Please check your configuration.');
+        setIsValidProvider(false);
+      } finally {
+        setIsVerifying(false);
+      }
+    };
+
+    verifyProviderConfig();
+  }, [airXPay]);
+
+  // Log config status after verification
+  useEffect(() => {
+    if (!isVerifying) {
+      if (isValidProvider) {
+        console.log('🚀 AirXPay provider ready - rendering onboarding');
+      } else {
+        console.warn('⚠️ AirXPay provider invalid - showing error state');
+      }
+    }
+  }, [isVerifying, isValidProvider]);
 
   // Update progress bar animation when step changes
   useEffect(() => {
@@ -248,13 +285,6 @@ useEffect(() => {
       return;
     }
 
-  if (!baseUrl || !publicKey) {
-    Alert.alert(
-      'Configuration Error',
-      'AirXPay baseUrl or publicKey is missing. Please check provider setup.'
-    );
-    return;
-  }
     // Show loading state while waiting for backend confirmation
     setIsWaitingForBackend(true);
 
@@ -283,20 +313,63 @@ useEffect(() => {
     } as Seller;
 
     // Call onComplete with seller data
-    // The developer's backend will handle actual seller creation
-    // and should call a callback or update state when complete
     onComplete(completeSellerData);
   }, [sellerData, mode, status, kycStatus, stepCompletion, onComplete, validateStepData]);
 
   // This function would be called by the parent when backend confirms creation
   const handleBackendConfirmation = useCallback(() => {
     setIsWaitingForBackend(false);
-    // The OnboardingComplete component will now show success state
   }, []);
 
   const getStepTitle = () => {
     const step = STEPS.find(s => s.id === currentStep);
     return step?.name || '';
+  };
+
+  const renderProviderVerification = () => {
+    if (isVerifying) {
+      return (
+        <View style={styles.verificationContainer}>
+          <LinearGradient
+            colors={['#0066CC', '#0099FF']}
+            style={styles.verificationCircle}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            <ActivityIndicator size="large" color="#FFFFFF" />
+          </LinearGradient>
+          <Text style={styles.verificationText}>
+            Verifying AirXPay configuration...
+          </Text>
+          <Text style={styles.verificationSubtext}>
+            Please wait while we validate your public key
+          </Text>
+        </View>
+      );
+    }
+
+    if (!isValidProvider) {
+      return (
+        <View style={styles.verificationContainer}>
+          <View style={[styles.verificationCircle, { backgroundColor: '#FF4444' }]}>
+            <IconButton
+              icon="alert"
+              size={40}
+              iconColor="#FFFFFF"
+              style={{ margin: 0 }}
+            />
+          </View>
+          <Text style={[styles.verificationText, { color: '#FF4444' }]}>
+            Invalid AirXPay Configuration
+          </Text>
+          <Text style={styles.errorMessage}>
+            {verificationError || 'Invalid AirXPay public key. Please check your configuration.'}
+          </Text>
+        </View>
+      );
+    }
+
+    return null;
   };
 
   const renderStep = () => {
@@ -393,6 +466,24 @@ useEffect(() => {
     outputRange: ['0%', '100%'],
   });
 
+  // Check if we should show verification UI
+  if (isVerifying || !isValidProvider) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#F8F9FA" />
+        <LinearGradient
+          colors={['#F8F9FA', '#FFFFFF']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+        >
+          {renderProviderVerification()}
+        </LinearGradient>
+      </SafeAreaView>
+    );
+  }
+
+  // Normal onboarding UI when provider is valid
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F8F9FA" />
@@ -433,7 +524,7 @@ useEffect(() => {
                 </View>
               </View>
               
-              {/* Logo Section - Now configurable */}
+              {/* Logo Section */}
               <View style={styles.logoContainer}>
                 <Avatar.Image 
                   size={40} 
@@ -615,6 +706,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF4444',
     marginBottom: 16,
     borderRadius: 8,
+  },
+  // New styles for provider verification
+  verificationContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  verificationCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  verificationText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  verificationSubtext: {
+    fontSize: 14,
+    color: '#666666',
+    textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
+    marginTop: 8,
+    paddingHorizontal: 20,
   },
 });
 

@@ -297,6 +297,81 @@ import { Provider as PaperProvider } from 'react-native-paper';
   </AirXPayProvider>
 </PaperProvider>
 ```
+### Future Customization Options Hooks and Initialization Like **This Structure Will Be Added In Future Updates To Allow More Flexibility And Control Over** ```The Onboarding Flow And SDK Initialization Process. Stay Tuned For More Enhancements!```
+
+```
+import React from "react";
+import {
+  useAirXPaySheet,
+  useAirXPay,
+  useAirXPaySafe,
+  useProviderReady,
+  useAirXPayConfig,
+} from "@airxpay/sdk-ui";
+import { ActivityIndicator, View, Text } from "react-native";
+
+const SellerOnboardingScreen = () => {
+  const { baseUrl, publicKey } = useAirXPay(); // Throws if provider missing
+  const safeConfig = useAirXPaySafe(); // Returns null if provider missing
+  const isReady = useProviderReady(); // SDK ready check
+  const apiUrl = useAirXPayConfig("baseUrl"); // Specific config
+
+  if (!isReady) {
+    return (
+      <View>
+        <ActivityIndicator />
+        <Text>Initializing AirXPay🔗...</Text>
+      </View>
+    );
+  }
+
+  if (!baseUrl || !publicKey) {
+    return (
+      <View>
+        <Text style={{ color: "red" }}>⚠️ AirXPay configuration missing!</Text>
+      </View>
+    );
+  }
+
+  if (!safeConfig) {
+    return (
+      <View>
+        <Text style={{ color: "red" }}>⚠️ AirXPay safe config missing!</Text>
+      </View>
+    );
+  }
+  if (apiUrl !== baseUrl) {
+    return (
+      <View>
+        <Text style={{ color: "red" }}>⚠️ AirXPay API URL mismatch!</Text>
+      </View>
+    );
+  }
+
+  const sellerSheet = useAirXPaySheet({
+    sellerId: "seller_12345",
+    mode: "live",
+    isKycCompleted: false,
+    isBankDetailsCompleted: false,
+    kycStatus: "pending",
+    status: "pending",
+    onNext: (data: any, step: number) => {
+      console.log(`Step ${step} completed`, data);
+    },
+    onBack: (step: number) => {
+      console.log(`Went back from step ${step}`);
+    },
+    onComplete: (finalData: any) => {
+      console.log("🎉 Onboarding Complete:", finalData);
+    },
+  });
+
+  return sellerSheet; // ✅ just return it directly
+};
+
+export default SellerOnboardingScreen;
+
+```
 
 ---
 

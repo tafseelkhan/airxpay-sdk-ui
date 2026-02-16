@@ -1,8 +1,17 @@
-import React, { createContext, useContext, useEffect } from "react";
+// AirXPayProvider.tsx
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { AirXPayConfig } from "../types/type";
+import { verifyPublicKey, SellerInitResponse } from "../api/seller";
 
-// Context with professional error handling
-const AirXPayContext = createContext<AirXPayConfig | null>(null);
+// Extended context with verification state
+interface AirXPayContextExtended extends AirXPayConfig {
+  isValid: boolean;
+  loading: boolean;
+  sellerData?: SellerInitResponse;
+  error?: string;
+}
+
+const AirXPayContext = createContext<AirXPayContextExtended | null>(null);
 AirXPayContext.displayName = "AirXPayContext";
 
 interface AirXPayProviderProps {
@@ -16,7 +25,12 @@ export const AirXPayProvider: React.FC<AirXPayProviderProps> = ({
   children,
   enableLogging = __DEV__,
 }) => {
-  // Validate configuration on mount
+  const [state, setState] = useState<AirXPayContextExtended>({
+    ...config,
+    isValid: false,
+    loading: true,
+  });
+
   useEffect(() => {
     const validationErrors: string[] = [];
 
@@ -28,7 +42,7 @@ export const AirXPayProvider: React.FC<AirXPayProviderProps> = ({
         new URL(config.baseUrl);
       } catch {
         validationErrors.push(
-          "baseUrl must be a valid URL (e.g., https://api.airxpay.com)",
+          "baseUrl must be a valid URL (e.g., https://api.airxpay.com)"
         );
       }
     }
@@ -40,11 +54,10 @@ export const AirXPayProvider: React.FC<AirXPayProviderProps> = ({
       validationErrors.push("publicKey must be a string");
     } else if (config.publicKey.length < 20) {
       validationErrors.push(
-        "publicKey appears to be invalid. Please check your API key.",
+        "publicKey appears to be invalid. Please check your API key."
       );
     }
 
-    // Throw error if validation fails
     if (validationErrors.length > 0) {
       const errorMessage = [
         "AirXPayProvider Configuration Error:",
@@ -52,17 +65,13 @@ export const AirXPayProvider: React.FC<AirXPayProviderProps> = ({
         "",
         "Received config:",
         `  • baseUrl: ${config.baseUrl || "missing"}`,
-        `  • publicKey: ${config.publicKey ? `${config.publicKey.substring(0, 8)}...` : "missing"}`,
+        `  • publicKey: ${config.publicKey ? `${config.publicKey.substring(0, 8)}...` : "missing"}`
       ].join("\n");
 
-      if (enableLogging) {
-        console.error("❌ AirXPay:", errorMessage);
-      }
-
+      if (enableLogging) console.error("❌ AirXPay:", errorMessage);
       throw new Error(errorMessage);
     }
 
-    // Log success in development
     if (enableLogging) {
       console.log(
         "%c✅ AirXPay Provider Initialized",
@@ -70,22 +79,32 @@ export const AirXPayProvider: React.FC<AirXPayProviderProps> = ({
         {
           baseUrl: config.baseUrl,
           publicKey: `${config.publicKey.substring(0, 8)}...`,
-        },
+        }
       );
     }
+
+    // Now call the public key verification API
+    const verifyKey = async () => {
+      try {
+        const sellerData = await verifyPublicKey(config.baseUrl, config.publicKey);
+        setState({ ...config, isValid: true, loading: false, sellerData });
+        if (enableLogging) console.log("✅ Public key verified", sellerData);
+      } catch (err: any) {
+        console.error("❌ Public key verification failed", err);
+        setState({ ...config, isValid: false, loading: false, error: err.message });
+      }
+    };
+
+    verifyKey();
+
   }, [config, enableLogging]);
 
-  return (
-    <AirXPayContext.Provider value={config}>{children}</AirXPayContext.Provider>
-  );
+  return <AirXPayContext.Provider value={state}>{children}</AirXPayContext.Provider>;
 };
 
-AirXPayProvider.displayName = "AirXPayProvider";
-
-// Professional hook with clear error messages
-export const useAirXPay = (): AirXPayConfig => {
+// Hook: strict (throws if provider not found)
+export const useAirXPay = (): AirXPayContextExtended => {
   const context = useContext(AirXPayContext);
-
   if (!context) {
     const errorMessage = [
       "❌ useAirXPay: Hook must be used within an AirXPayProvider",
@@ -108,26 +127,24 @@ export const useAirXPay = (): AirXPayConfig => {
       "    </AirXPayProvider>",
       "",
       "  • Verify the provider is not inside a conditional or loop",
-      `  • Component location: ${new Error().stack?.split("\n")[2]?.trim() || "unknown"}`,
+      `  • Component location: ${new Error().stack?.split("\n")[2]?.trim() || "unknown"}`
     ].join("\n");
 
-    // Log with styling in development
     if (__DEV__) {
       console.error(
         "%c❌ AirXPay Context Error",
         "color: #ef4444; font-size: 14px; font-weight: bold;",
-        "\n" + errorMessage,
+        "\n" + errorMessage
       );
     }
 
     throw new Error(errorMessage);
   }
-
   return context;
 };
 
-// Helper: Check if config exists without throwing
-export const useAirXPaySafe = (): AirXPayConfig | null => {
+// Hook: safe (returns null if missing)
+export const useAirXPaySafe = (): AirXPayContextExtended | null => {
   try {
     return useAirXPay();
   } catch {
@@ -135,21 +152,21 @@ export const useAirXPaySafe = (): AirXPayConfig | null => {
   }
 };
 
-// Helper: Access specific config value
+// Hook: access specific key
 export const useAirXPayConfig = <K extends keyof AirXPayConfig>(
-  key: K,
+  key: K
 ): AirXPayConfig[K] | undefined => {
-  const config = useAirXPaySafe();
-  return config?.[key];
+  const context = useAirXPaySafe();
+  return context?.[key];
 };
 
-// Helper: Check if provider is properly configured
+// Hook: check if provider ready
 export const useProviderReady = (): boolean => {
-  const config = useAirXPaySafe();
-  return !!(config?.baseUrl && config?.publicKey);
+  const context = useAirXPaySafe();
+  return !!(context?.baseUrl && context?.publicKey && context.isValid);
 };
 
-// Export context consumer for advanced use cases
+// Consumer for advanced usage
 export const AirXPayConsumer = AirXPayContext.Consumer;
 
 export default AirXPayProvider;
