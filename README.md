@@ -120,9 +120,13 @@ yarn add @airxpay/sdk-ui
 
 <div align="center">
   
-The **@airxpay/sdk-ui** package provides utility hooks for accessing configuration, managing initialization state, **and safely interacting with the AirXPayProvider.**
+## 🚀 Supercharge Your Integration
+
+The **@airxpay/sdk-ui** package provides powerful utility hooks for accessing configuration, managing initialization state, **and safely interacting with the AirXPayProvider.**
 
 </div>
+
+<br>
 
 ```jsx
 import { 
@@ -131,151 +135,284 @@ import {
   useProviderReady, 
   useAirXPayConfig 
 } from '@airxpay/sdk-ui';
+<br> <hr> <br>
+📊 Hook Comparison Matrix
 
-📋 Quick Reference Matrix
+Hook	Return Type	Error Handling	Safety	Best For	Complexity
+useAirXPay	object	⚠️ Throws	❌ Strict	Production	🔴 High
+useAirXPaySafe	object | null	✅ Silent	🛡️ Safe	Shared Components	🟡 Medium
+useProviderReady	boolean	✅ Silent	⏳ State	Async Loading	🟢 Low
+useAirXPayConfig	string	✅ Silent	🎯 Targeted	Single Values	🟢 Low
+<br> <hr> <br>
+🎯 Detailed Hook Catalog
 
-Hook	Returns	Error	Safe	Use Case
+1️⃣ useAirXPay() — Full Configuration Access
 
-useAirXPay	{ baseUrl, publicKey }	⚠️ Throws	❌	Core production components
-
-useAirXPaySafe	config | null	✅ No	✅	Shared/components/testing
-
-useProviderReady	boolean	✅ No	✅	Async/loading states
-
-useAirXPayConfig	string	✅ No	✅	Single value access
-
-🎯 Hook Catalog
-
-<div align="center">
-Hook	Behavior	When to Use	Recommended For
-</div>
-
-1️⃣ useAirXPay() 🔒 Strict Mode
 jsx
 const { baseUrl, publicKey } = useAirXPay();
 
-Property	Details
-⚠️ Error	Throws if provider missing
-📦 Returns	Full config object
-🎮 Control	Strict enforcement
-Perfect for:
+<div align="center">
+Property	Specification	Icon
+Returns	{ baseUrl: string, publicKey: string }	📦
+Error	Error if provider missing	⚠️
+Provider Required	✅ Yes	🔒
+Null Safety	❌ No	🚫
+</div>
+🎬 Usage Examples
 
 jsx
-// ✅ API calls
-// ✅ Dynamic endpoints  
-// ✅ Advanced integrations
-Production Ready 🚀 - Use when provider is guaranteed
+// ✅ API Requests
+const { baseUrl } = useAirXPay();
+const response = await fetch(`${baseUrl}/api/payments`);
 
-2️⃣ useAirXPaySafe() 🛡️ Safe Mode
-jsx
+// ✅ Dynamic Endpoints
+const { publicKey } = useAirXPay();
+const client = new AirXClient(publicKey);
 
-const safeConfig = useAirXPaySafe(); // Returns null if no provider
-Property	Details
-✅ Error	No error, returns null
-📦 Returns	Config or null
-🎮 Control	Flexible usage
-Perfect for:
+// ✅ Advanced Integrations
+const config = useAirXPay();
+initializeSDK(config);
 
-jsx
-// 🧪 Component testing
-// 🔌 Optional integrations
-// 📦 Shared components
-Flexible Choice 🌟 - Use when provider might be missing
+💼 Production Ready — Use when provider is guaranteed to exist
 
-3️⃣ useProviderReady() ⏳ State Check
-jsx
-
-const isReady = useProviderReady(); // true/false
-Property	Details
-✅ Error	Never throws
-📦 Returns	Boolean
-🎮 Control	Async handling
-Perfect for:
-jsx
-// 🎨 Conditional rendering
-// ⏰ Loader components
-// 🔄 Async workflows
-Initialization Guardian 🛡️ - Use for async setup
-
-4️⃣ useAirXPayConfig(key) 🎯 Targeted Access
-jsx
-
-const baseUrl = useAirXPayConfig('baseUrl');  // Returns string
-const pubKey = useAirXPayConfig('publicKey'); // Returns string
-Property	Details
-✅ Error	Never throws
-📦 Returns	Single value
-🎮 Control	Focused access
-Perfect for:
+<br> <hr> <br>
+2️⃣ useAirXPaySafe() — Safe Configuration Access
 
 jsx
-// 🎯 Single config value
-// 🧹 Clean code
-// ⚡ Minimal access
-Precision Tool 🎯 - Use for specific config values
-
-📊 Detailed Comparison Table
-
-Feature	useAirXPay	useAirXPaySafe	useProviderReady	useAirXPayConfig
-
-Return Type	object	object | null	boolean	string
-
-Throws Error	✅ Yes	❌ No	❌ No	❌ No
-
-Null Safe	❌ No	✅ Yes	✅ Yes	✅ Yes
-
-Provider Required	✅ Yes	❌ No	❌ No	❌ No
-
-Use Case	Full config	Optional config	Init state	Single value
-
-Complexity	High	Medium	Low	Low
-
-🎨 Visual Usage Guide
-jsx
-// 🚀 PRODUCTION - Strict access
-function PaymentComponent() {
-  const { baseUrl } = useAirXPay(); // Will throw if provider missing
-  // ... payment logic
-}
-
-// 🧪 TESTING - Flexible access
-function SharedButton() {
-  const config = useAirXPaySafe(); // Safe, returns null if missing
-  return <button>{config?.publicKey || 'No config'}</button>;
-}
-
-// ⏰ LOADING - Async handling
-function App() {
-  const isReady = useProviderReady();
-  return isReady ? <Dashboard /> : <Loader />;
-}
-
-// 🎯 TARGETED - Single value
-function ApiClient() {
-  const baseUrl = useAirXPayConfig('baseUrl');
-  return fetch(`${baseUrl}/api/data`);
-}
-
-💡 Pro Tips Corner
-
-Tip	Hook	Why
-
-🚀 Strict Mode	useAirXPay	When you NEED the provider
-🛡️ Defensive Mode	useAirXPaySafe	For shared components
-⏳ Loading States	useProviderReady	Handle async gracefully
-🎯 Clean Code	useAirXPayConfig	Avoid destructuring
+const config = useAirXPaySafe(); // Returns null if no provider
 
 <div align="center">
+Property	Specification	Icon
+Returns	object | null	📦
+Error	null (no error)	✅
+Provider Required	❌ No	🛡️
+Null Safety	✅ Yes	🟢
+</div>
+🎬 Usage Examples
 
+jsx
+// 🧪 Component Testing
+function TestComponent() {
+  const config = useAirXPaySafe();
+  return <div>{config?.baseUrl || 'No config'}</div>;
+}
+
+// 🔌 Optional Integration
+function OptionalFeature() {
+  const config = useAirXPaySafe();
+  return config && <Feature config={config} />;
+}
+
+// 📦 Shared Library Component
+function SharedButton() {
+  const config = useAirXPaySafe();
+  return <button>{config?.publicKey || 'Default'}</button>;
+}
+
+🌟 Flexible Choice — Perfect for shared components and testing
+
+<br> <hr> <br>
+3️⃣ useProviderReady() — Initialization State
+
+jsx
+const isReady = useProviderReady(); // Returns boolean
+
+<div align="center">
+Property	Specification	Icon
+Returns	boolean	🔄
+Error	false (no error)	✅
+Provider Required	❌ No	⏳
+Use Case	Async state	🎨
+</div>
+🎬 Usage Examples
+
+jsx
+// 🎨 Conditional Rendering
+function App() {
+  const isReady = useProviderReady();
+  return isReady ? <Dashboard /> : <SetupWizard />;
+}
+
+// ⏰ Loading States
+function PaymentPage() {
+  const isReady = useProviderReady();
+  if (!isReady) return <LoadingSpinner />;
+  return <PaymentForm />;
+}
+
+// 🔄 Async Workflows
+function DataFetcher() {
+  const isReady = useProviderReady();
+  useEffect(() => {
+    if (isReady) fetchData();
+  }, [isReady]);
+}
+
+🛡️ Initialization Guardian — Essential for async setup workflows
+
+<br> <hr> <br>
+4️⃣ useAirXPayConfig(key) — Targeted Value Access
+
+jsx
+const baseUrl = useAirXPayConfig('baseUrl');  // Returns string
+const publicKey = useAirXPayConfig('publicKey'); // Returns string
+
+<div align="center">
+Property	Specification	Icon
+Returns	string | undefined	🎯
+Error	undefined (no error)	✅
+Params	'baseUrl' | 'publicKey'	🔑
+Provider Required	❌ No	🧹
+</div>
+🎬 Usage Examples
+
+jsx
+// 🎯 Single Value Access
+function ApiClient() {
+  const baseUrl = useAirXPayConfig('baseUrl');
+  return fetch(`${baseUrl}/data`);
+}
+
+// 🧹 Clean Code
+function Header() {
+  const publicKey = useAirXPayConfig('publicKey');
+  return <Badge>{publicKey?.slice(0, 8)}...</Badge>;
+}
+
+// ⚡ Minimal Access
+function Logger() {
+  const baseUrl = useAirXPayConfig('baseUrl');
+  console.log('API URL:', baseUrl);
+}
+
+🎯 Precision Tool — When you need just one value, not the whole object
+
+<br> <hr> <br>
+📈 Feature Comparison Matrix
+
+Feature	useAirXPay	useAirXPaySafe	useProviderReady	useAirXPayConfig
+Return Type	object	object | null	boolean	string
+Throws Error	⚠️ Yes	✅ No	✅ No	✅ No
+Null Safe	❌ No	✅ Yes	✅ Yes	✅ Yes
+Provider Required	✅ Yes	❌ No	❌ No	❌ No
+Bundle Size Impact	Low	Low	Lowest	Lowest
+Learning Curve	Easy	Easy	Easiest	Easy
+Use Case	Full config	Optional config	Init state	Single value
+Flexibility	Low	High	High	High
+Type Safety	✅ Full	✅ Full	✅ Full	✅ Full
+<br> <hr> <br>
+🎨 Visual Implementation Guide
+
+jsx
+// 🚀 PRODUCTION COMPONENTS - Strict Provider Required
+function PaymentProcessor() {
+  const { baseUrl, publicKey } = useAirXPay(); // Must have provider
+  // Critical payment logic here
+}
+
+<br>
+
+// 🧪 REUSABLE COMPONENTS - Flexible Provider Optional
+function UIComponent() {
+  const config = useAirXPaySafe(); // Safe, handles missing provider
+  return <div>{config ? <Connected /> : <Fallback />}</div>;
+}
+
+<br>
+
+// ⏰ LOADING MANAGEMENT - Async State Handling
+function AppRouter() {
+  const isReady = useProviderReady(); // Wait for SDK init
+  if (!isReady) return <GlobalLoader />;
+  return <AuthenticatedApp />;
+}
+
+<br>
+
+// 🎯 CONFIG ACCESS - Focused Value Retrieval
+function Analytics() {
+  const baseUrl = useAirXPayConfig('baseUrl'); // Only what you need
+  const publicKey = useAirXPayConfig('publicKey');
+  trackEvent('init', { baseUrl, publicKey });
+}
+<br> <hr> <br>
+🎮 Hook Selection Flowchart
+
+text
+                    Start
+                      │
+                      ▼
+            ┌─────────────────┐
+            │ Need provider   │
+            │   values?       │
+            └────────┬────────┘
+                      │
+          ┌───────────┴───────────┐
+          ▼                       ▼
+    ┌─────────────┐         ┌─────────────┐
+    │  Just one   │         │   Multiple  │
+    │   value?    │         │   values?   │
+    └─────┬───────┘         └──────┬──────┘
+          │                        │
+    ┌─────▼─────┐            ┌─────▼─────┐
+    │ useAirXPay│            │ Is provider│
+    │   Config  │            │ guaranteed?│
+    └───────────┘            └─────┬─────┘
+                                   │
+                       ┌───────────┴───────────┐
+                       ▼                       ▼
+                 ┌───────────┐           ┌───────────┐
+                 │    Yes    │           │    No     │
+                 │ useAirXPay│           │useAirXPay │
+                 │           │           │   Safe    │
+                 └───────────┘           └───────────┘
+
+                    ┌─────────────────┐
+                    │ Need init state?│
+                    └────────┬────────┘
+                             ▼
+                    ┌─────────────────┐
+                    │ useProviderReady│
+                    └─────────────────┘
+<br> <hr> <br>
+💡 Pro Tips & Best Practices
+
+Scenario	Recommended Hook	Why
+🚀 Core Payment Flow	useAirXPay	Fail fast if provider missing
+📦 NPM Package Component	useAirXPaySafe	Don't break consumer apps
+⏳ Loading Screen	useProviderReady	Perfect for splash screens
+🎯 API URL Only	useAirXPayConfig	Cleaner than destructuring
+🧪 Unit Tests	useAirXPaySafe	Mock-friendly
+⚡ Performance Critical	useAirXPayConfig	Minimal re-renders
+<br> <hr> <br>
+📦 Bundle Size Impact
+
+Hook	Size	Impact
+useAirXPay	~0.5KB	🟢 Minimal
+useAirXPaySafe	~0.5KB	🟢 Minimal
+useProviderReady	~0.3KB	🟢 Tiny
+useAirXPayConfig	~0.4KB	🟢 Tiny
+<br> <hr> <br><div align="center">
 ⚡ Quick Decision Maker
-Need guaranteed access? → useAirXPay
-Building shared components? → useAirXPaySafe
-Handling async loading? → useProviderReady
-Just need one value? → useAirXPayConfig
+
+If you want...	Then use...
+🔒 Strict mode, full config	useAirXPay()
+🛡️ Safe mode, full config	useAirXPaySafe()
+⏰ Check if SDK is ready	useProviderReady()
+🎯 Just one config value	useAirXPayConfig(key)
+<br> <hr> <br>
+🏆 Recommendation Matrix
+
+Use Case	Complexity	Safety	Winner
+Production App	High	Strict	useAirXPay
+Shared Library	Medium	Safe	useAirXPaySafe
+Loading States	Low	Safe	useProviderReady
+Config Access	Low	Safe	useAirXPayConfig
+<br> <hr> <br>
+🎉 Happy Coding!
+For questions or support, reach out to the AirXPay team
 
 </div> ```
-
----
 
 ## 🚀 Quick Start
 
