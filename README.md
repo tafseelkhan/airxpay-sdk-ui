@@ -619,5 +619,5 @@ MIT © [AirXPay](https://airxpay.com)
 <div align="center">
   <sub>Built with ❤️ by the AirXPay Team</sub>
   <br/>
-  <sub>© 2024 AirXPay. All rights reserved.</sub>
+  <sub>© 2026 AirXPay. All rights reserved.</sub>
 </div>

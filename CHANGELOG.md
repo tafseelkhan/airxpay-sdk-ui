@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2024-03-20
+## [1.0.0] - 2026-03-20
 
 ### 🚀 Initial Release
 
@@ -103,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.1] - 2024-03-21
+## [1.0.1] - 2026-03-21
 
 ### Fixed
 - Fixed import path for `OnboardingCompleteScreen` in main index file
@@ -117,7 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.2] - 2024-03-22
+## [1.0.2] - 2026-03-22
 
 ### Added
 - Backend security verification flow documentation
@@ -136,7 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.1.0] - 2024-03-23
+## [1.1.0] - 2026-03-23
 
 ### Added
 - **New Feature**: Auto token refresh with request queue
@@ -155,7 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.2.0] - 2024-03-24
+## [1.2.0] - 2026-03-24
 
 ### Added
 - **New Feature**: Document upload progress indicators
@@ -174,7 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.3.0] - 2024-03-25
+## [1.3.0] - 2026-03-25
 
 ### Added
 - **New Feature**: Custom navigation support in config
@@ -191,7 +191,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.4.0] - 2024-03-26
+## [1.4.0] - 2026-03-26
 
 ### Added
 - **New Feature**: Step persistence - remember completed steps
@@ -210,7 +210,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [2.0.0] - 2024-04-01
+## [2.0.0] - 2026-04-01
 
 ### ⚠️ Breaking Changes
 
@@ -244,7 +244,7 @@ interface StepCompletion {
 
 ---
 
-## [2.0.1] - 2024-04-02
+## [2.0.1] - 2026-04-02
 
 ### Fixed
 - Fixed TypeScript errors in StepCompletion type
@@ -253,7 +253,7 @@ interface StepCompletion {
 
 ---
 
-## [2.1.0] - 2024-04-03
+## [2.1.0] - 2026-04-03
 
 ### Added
 - **New Feature**: Document compression before upload
@@ -272,7 +272,7 @@ interface StepCompletion {
 
 ---
 
-## [2.2.0] - 2024-04-04
+## [2.2.0] - 2026-04-04
 
 ### Added
 - **New Feature**: Biometric authentication support
@@ -286,7 +286,7 @@ interface StepCompletion {
 
 ---
 
-## [3.0.0] - 2024-04-10
+## [3.0.0] - 2026-04-10
 
 ### ⚠️ Major Release - Security Focus
 
@@ -319,7 +319,7 @@ app.post('/verify-public-key', async (req, res) => {
 
 ---
 
-## [3.0.1] - 2024-04-11
+## [3.0.1] - 2026-04-11
 
 ### Fixed
 - Fixed public key verification timeout issues
@@ -328,7 +328,7 @@ app.post('/verify-public-key', async (req, res) => {
 
 ---
 
-## [3.1.0] - 2024-04-12
+## [3.1.0] - 2026-04-12
 
 ### Added
 - **New Feature**: Security audit logging
@@ -342,7 +342,7 @@ app.post('/verify-public-key', async (req, res) => {
 
 ---
 
-## [4.0.0] - 2024-04-15
+## [4.0.0] - 2026-04-15
 
 ### 🎉 Production Ready Release
 
@@ -364,7 +364,7 @@ app.post('/verify-public-key', async (req, res) => {
 
 ---
 
-## [4.0.1] - 2024-04-16
+## [4.0.1] - 2026-04-16
 
 ### Fixed
 - Minor bug fixes in production build
@@ -373,7 +373,7 @@ app.post('/verify-public-key', async (req, res) => {
 
 ---
 
-## [4.1.0] - 2024-04-17
+## [4.1.0] - 2026-04-17
 
 ### Added
 - **New Feature**: Dark mode support
@@ -400,11 +400,11 @@ app.post('/verify-public-key', async (req, res) => {
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| 4.1.0 | 2024-04-17 | Dark mode, custom themes |
-| 4.0.0 | 2024-04-15 | Production ready, 90% test coverage |
-| 3.0.0 | 2024-04-10 | Security focus, double verification |
-| 2.0.0 | 2024-04-01 | 5-step flow, final review screen |
-| 1.0.0 | 2024-03-20 | Initial release |
+| 4.1.0 | 2026-04-17 | Dark mode, custom themes |
+| 4.0.0 | 2026-04-15 | Production ready, 90% test coverage |
+| 3.0.0 | 2026-04-10 | Security focus, double verification |
+| 2.0.0 | 2026-04-01 | 5-step flow, final review screen |
+| 1.0.0 | 2026-03-20 | Initial release |
 
 ---
 
@@ -427,5 +427,5 @@ For issues and feature requests, please [open an issue](https://github.com/airxp
 ---
 
 <div align="center">
-  <sub>Copyright © 2024 AirXPay. All rights reserved.</sub>
+  <sub>Copyright © 2026 AirXPay. All rights reserved.</sub>
 </div>
